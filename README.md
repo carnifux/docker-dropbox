@@ -1,10 +1,12 @@
-mbentley/dropbox
+carfniex/dropbox
 ================
+
+totally copied from mbentley/dropbox, with https://github.com/dark/dropbox-filesystem-fix to make it actually work on linux
 
 docker image for Dropbox based off of debian:stretch
 
 To pull this image:
-`docker pull mbentley/dropbox`
+`docker pull carfniex/dropbox`
 
 Example usage:
 ```
@@ -18,7 +20,7 @@ docker run -d \
   -e DBOX_GID=1000 \
   -v /data/dropbox:/home/default/Dropbox \
   -v /data/dropbox-config:/home/default/.dropbox \
-  mbentley/dropbox
+  carfniex/dropbox
 ```
 
 You *must* use volumes for `~/.dropbox` and `~/Dropbox` otherwise you will see data corruption every time Dropbox starts.

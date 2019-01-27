@@ -1,21 +1,29 @@
 FROM debian:stretch
-MAINTAINER Matt Bentley <mbentley@mbentley.net>
+# thank you matt for doing basically all the work i am bad at computers
+#MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 # install prereqs
 RUN (apt-get update &&\
-  apt-get install -y jq libglib2.0-0 python2.7-minimal wget &&\
+  apt-get install -y jq libglib2.0-0 python wget git build-essential &&\
   rm -rf /var/lib/apt/lists/*)
+
+# grab the fs fix and make it
+RUN cd / \
+  && git clone https://github.com/dark/dropbox-filesystem-fix.git \
+  && cd /dropbox-filesystem-fix \
+  && make \
+  && cp -R /dropbox-filesystem-fix /opt/dropbox-filesystem-fix \
+  && chmod +x /opt/dropbox-filesystem-fix/dropbox_start.py
 
 # install dropbox
 RUN (mkdir /opt/dropbox &&\
   cd /opt/dropbox &&\
   wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -)
 
+
 # install dropbox.py
 RUN (wget -O /usr/local/bin/dropbox.py "https://www.dropbox.com/download?dl=packages/dropbox.py" &&\
-  chmod +x /usr/local/bin/dropbox.py &&\
-  ln -s /usr/bin/python2.7 /usr/bin/python &&\
-  ln -s /usr/bin/python2.7 /usr/bin/python2)
+  chmod +x /usr/local/bin/dropbox.py)
 
 # install tini
 RUN (TINI_VER="$(wget -q -O - https://api.github.com/repos/krallin/tini/releases/latest | jq -r .tag_name)" &&\

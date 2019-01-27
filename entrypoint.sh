@@ -64,7 +64,9 @@ fi
 if [ "${*}" = "start" ]
 then
   echo "INFO: Running Dropbox as ${DBOX_USERNAME}:${DBOX_GROUP} (${DBOX_UID}:${DBOX_GID})"
-  gosu "${DBOX_USERNAME}" /tini -s -- /home/"${DBOX_USERNAME}"/.dropbox-dist/dropboxd
+  # add our new thingy onto the env so it can do whatever magic it does 
+  env LD_PRELOAD="/opt/dropbox-filesystem-fix/libdropbox_fs_fix.so" \
+    gosu "${DBOX_USERNAME}" /tini -s -- /home/"${DBOX_USERNAME}"/.dropbox-dist/dropboxd
 else
   gosu "${DBOX_USERNAME}" "${@}"
 fi
