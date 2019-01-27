@@ -4,7 +4,7 @@ FROM debian:stretch
 
 # install prereqs
 RUN (apt-get update &&\
-  apt-get install -y jq libglib2.0-0 python wget git build-essential &&\
+  apt-get install -y jq libglib2.0-0 python wget git build-essential locales &&\
   rm -rf /var/lib/apt/lists/*)
 
 # grab the fs fix and make it
