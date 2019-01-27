@@ -35,6 +35,9 @@ RUN (wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/downlo
   wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64.asc" &&\
   chmod +x /usr/local/bin/gosu)
 
+RUN locale-gen en_US.UTF-8
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
 COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
